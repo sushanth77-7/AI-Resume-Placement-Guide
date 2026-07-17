@@ -1,41 +1,29 @@
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const multer = require("multer");
+const path = require("path");
 
-// Create uploads directory if it doesn't exist
-const uploadDir = path.join(__dirname, '../uploads/resumes');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+// Store uploaded PDF temporarily in memory
+// It will then be stored permanently in MongoDB GridFS
+const storage = multer.memoryStorage();
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-// File filter
+// Allow PDF files only
 const fileFilter = (req, file, cb) => {
-  const allowedMimes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-  const allowedExtensions = ['.pdf', '.doc', '.docx'];
-
   const fileExt = path.extname(file.originalname).toLowerCase();
 
-  if (allowedMimes.includes(file.mimetype) && allowedExtensions.includes(fileExt)) {
+  if (
+    file.mimetype === "application/pdf" &&
+    fileExt === ".pdf"
+  ) {
     cb(null, true);
   } else {
-    cb(new Error('Only PDF, DOC, and DOCX files are allowed'), false);
+    cb(new Error("Only PDF resume files are allowed"), false);
   }
 };
 
 const upload = multer({
   storage,
-  limits: { fileSize: process.env.MAX_FILE_SIZE || 5242880 }, // 5MB
+  limits: {
+    fileSize: Number(process.env.MAX_FILE_SIZE) || 5 * 1024 * 1024
+  },
   fileFilter
 });
 

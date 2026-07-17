@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import profileService from '../services/profileService'
+import resumeService from "../services/resumeService";
 
 export default function Profile() {
   const [loading, setLoading] = useState(true)
@@ -939,14 +940,17 @@ export default function Profile() {
 
                           {/* Action links */}
                           <div className="flex gap-4 border-t border-slate-100/60 pt-3">
-                            <a 
-                              href={`http://localhost:5000${resItem.fileUrl}`} 
-                              target="_blank" 
-                              rel="noreferrer" 
-                              className="text-xs font-bold text-indigo-650 hover:underline"
-                            >
-                              📥 Download Original Resume
-                            </a>
+                           <button
+  onClick={() =>
+    resumeService.downloadResume(
+      resItem._id,
+      resItem.fileName
+    )
+  }
+  className="text-xs font-bold text-indigo-650 hover:underline"
+>
+  📥 Download Original Resume
+</button>
                           </div>
                         </div>
                       )
@@ -1171,15 +1175,17 @@ export default function Profile() {
                           )}
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
-                          <a 
-                            href={`http://localhost:5000${cert.fileUrl}`} 
-                            target="_blank" 
-                            rel="noreferrer" 
-                            className="bg-white hover:bg-slate-150 border border-slate-200 p-2 rounded-lg"
-                            title="Download Certificate"
-                          >
-                            📥
-                          </a>
+                         <button
+  onClick={() =>
+    resumeService.downloadResume(
+      resItem._id,
+      resItem.fileName
+    )
+  }
+  className="text-xs font-bold text-indigo-650 hover:underline"
+>
+  📥 Download Original Resume
+</button>
                           <button 
                             onClick={() => handleDeleteCert(cert._id)}
                             className="bg-white hover:bg-rose-50 text-rose-500 border border-slate-200 p-2 rounded-lg"

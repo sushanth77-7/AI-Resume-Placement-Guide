@@ -1,3 +1,6 @@
+const { getGridFSBucket } = require("../config/gridfs");
+const { ObjectId } = require("mongodb");
+const { Readable } = require("stream");
 const Resume = require('../models/Resume');
 const Recommendation = require('../models/Recommendation');
 const User = require('../models/User');
@@ -19,19 +22,31 @@ exports.uploadResume = async (req, res) => {
       return res.status(400).json({ error: 'Resume upload failed: File not received by server.' });
     }
     
-    
+    // Upload file to GridFS
+const bucket = getGridFSBucket();
+
+const uploadStream = bucket.openUploadStream(req.file.originalname, {
+  contentType: req.file.mimetype
+});
+
+await new Promise((resolve, reject) => {
+  Readable.from(req.file.buffer)
+    .pipe(uploadStream)
+    .on("error", reject)
+    .on("finish", resolve);
+});
+
+const fileId = uploadStream.id;
     
     
     
 
     // 2. Resume Text Extraction Verification
     
-    const resumeContent = await resumeParser.parse(req.file.path);
-    if (!resumeContent || resumeContent.trim().length === 0) {
-      console.error('PDF text extraction verification failed: Content is empty.');
-      return res.status(400).json({ error: 'Resume text extraction failed: Extracted content is empty.' });
-    }
-    
+    const resumeContent = await resumeParser.parse(
+  req.file.buffer,
+  req.file.originalname
+);
     
     // Explicit and Inferred Skill Extraction
     let detectedSkills = await skillExtractor.extractSkills(resumeContent);
@@ -222,8 +237,8 @@ exports.uploadResume = async (req, res) => {
     // Create resume record
     const resume = await Resume.create({
       userId: req.user.id,
-      fileName: req.file.originalname,
-      fileUrl: `/uploads/resumes/${req.file.filename}`,
+     fileId: fileId,
+fileName: req.file.originalname,
       content: resumeContent,
       skills: detectedSkills,
       detectedSkills,
@@ -331,39 +346,55 @@ exports.uploadResume = async (req, res) => {
 };
 
 // Get All Resumes
+// View / Download Resume PDF from GridFS
+// View Resume PDF from GridFS
+// Get All User Resumes
 exports.getUserResumes = async (req, res) => {
   try {
-    const resumes = await Resume.find({ userId: req.user.id })
-      .populate('recommendations');
+    const resumes = await Resume.find({
+      userId: req.user.id
+    }).populate('recommendations');
 
     res.status(200).json({
       success: true,
       resumes
     });
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Get user resumes error:", error);
+    res.status(500).json({
+      error: error.message
+    });
   }
 };
+
 
 // Get Single Resume
 exports.getResumeById = async (req, res) => {
   try {
-    const resume = await Resume.findById(req.params.id)
-      .populate('recommendations');
+    const resume = await Resume.findOne({
+      _id: req.params.id,
+      userId: req.user.id
+    }).populate('recommendations');
 
     if (!resume) {
-      return res.status(404).json({ error: 'Resume not found' });
+      return res.status(404).json({
+        error: "Resume not found"
+      });
     }
 
     res.status(200).json({
       success: true,
       resume
     });
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Get resume error:", error);
+    res.status(500).json({
+      error: error.message
+    });
   }
 };
-
 // Generate Recommendations
 exports.generateRecommendations = async (req, res) => {
   try {
@@ -435,6 +466,16 @@ exports.deleteResume = async (req, res) => {
       req.user.id,
       { $pull: { resumes: resume._id } }
     );
+    // Delete PDF from GridFS
+if (resume.fileId) {
+  const bucket = getGridFSBucket();
+
+  try {
+    await bucket.delete(resume.fileId);
+  } catch (fileError) {
+    console.error("GridFS file deletion failed:", fileError.message);
+  }
+}
 
     await Resume.findByIdAndDelete(req.params.id);
 
@@ -444,5 +485,48 @@ exports.deleteResume = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// View / Download Resume PDF from GridFS
+exports.getResumeFile = async (req, res) => {
+  try {
+    const resume = await Resume.findOne({
+      _id: req.params.id,
+      userId: req.user.id
+    });
+
+    if (!resume) {
+      return res.status(404).json({ error: "Resume not found" });
+    }
+
+    if (!resume.fileId) {
+      return res.status(404).json({ error: "Resume PDF not found" });
+    }
+
+    const bucket = getGridFSBucket();
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `inline; filename="${resume.fileName}"`
+    });
+
+    const downloadStream = bucket.openDownloadStream(resume.fileId);
+
+    downloadStream.on("error", (error) => {
+      console.error("GridFS download error:", error);
+      if (!res.headersSent) {
+        res.status(404).json({ error: "PDF file not found in GridFS" });
+      }
+    });
+
+    downloadStream.pipe(res);
+
+  } catch (error) {
+    console.error("Resume retrieval error:", error);
+
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message });
+    }
   }
 };

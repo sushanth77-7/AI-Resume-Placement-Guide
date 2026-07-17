@@ -1,25 +1,20 @@
-const pdfParse = require('pdf-parse');
-const fs = require('fs');
-const path = require('path');
+const pdfParse = require("pdf-parse");
 
 const resumeParser = {
-  parse: async (filePath) => {
+  parse: async (fileBuffer, fileName) => {
     try {
-      const ext = path.extname(filePath).toLowerCase();
+      const ext = fileName.split(".").pop().toLowerCase();
 
-      if (ext === '.pdf') {
-        // Parse PDF
-        const pdfBuffer = fs.readFileSync(filePath);
-        const pdfData = await pdfParse(pdfBuffer);
+      if (ext === "pdf") {
+        const pdfData = await pdfParse(fileBuffer);
         return pdfData.text;
-      } else if (ext === '.docx') {
-        // For DOCX, you might want to use a library like docx-parser
-        // For now, returning placeholder
-        return fs.readFileSync(filePath, 'utf8');
-      } else {
-        // Plain text
-        return fs.readFileSync(filePath, 'utf8');
       }
+
+      if (ext === "docx") {
+        return fileBuffer.toString("utf8");
+      }
+
+      return fileBuffer.toString("utf8");
     } catch (error) {
       throw new Error(`Failed to parse resume: ${error.message}`);
     }

@@ -50,6 +50,39 @@ class ResumeService {
       throw error
     }
   }
+  async downloadResume(resumeId, fileName) {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/resume/${resumeId}/file`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error('Failed to download resume')
+    }
+
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = fileName || 'resume.pdf'
+
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+
+    window.URL.revokeObjectURL(url)
+
+  } catch (error) {
+    console.error('Resume download error:', error)
+    throw error
+  }
+}
 
   async getUserResumes() {
     try {

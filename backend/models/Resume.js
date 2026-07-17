@@ -10,10 +10,10 @@ const resumeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  fileUrl: {
-    type: String,
-    required: true
-  },
+  fileId: {
+  type: mongoose.Schema.Types.ObjectId,
+  required: true
+},
   atsScore: {
     type: Number,
     default: 0
