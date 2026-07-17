@@ -375,17 +375,13 @@ export default function Profile() {
           <div className="absolute inset-0 opacity-40 bg-gradient-to-tr from-indigo-900 via-indigo-950 to-slate-950"></div>
         </div>
         <div className="max-w-7xl w-full mx-auto px-4 pb-6 relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div className="flex items-end">
-            {profile.profilePicture ? (
-              <img 
-                src={
-                  profile.profilePicture.toString().startsWith('/uploads/')
-                    ? `http://localhost:5000${profile.profilePicture}`
-                    : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/profile/photo/${profile.profilePicture}`
-                } 
-                alt="Avatar" 
-                className="w-24 h-24 rounded-full border-4 border-white object-cover bg-white shadow-md -mb-12"
-              />
+         <div className="flex items-end">
+  {profile.profilePicture ? (
+    <img
+      src={`${import.meta.env.VITE_API_URL}/profile/photo/${profile._id}`}
+      alt="Avatar"
+      className="w-24 h-24 rounded-full border-4 border-white object-cover bg-white shadow-md -mb-12"
+    />
             ) : (
               <div className="w-24 h-24 bg-indigo-650 rounded-full border-4 border-white flex items-center justify-center text-white text-3xl font-black shadow-md -mb-12">
                 {getInitials(profile.name)}
