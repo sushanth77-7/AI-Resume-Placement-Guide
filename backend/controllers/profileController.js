@@ -9,6 +9,7 @@ const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const { getProfileImageBucket } = require('../config/gridfs');
+const { Readable } = require('stream');
 
 /**
  * Helper to call Groq to categorize certificate
@@ -151,9 +152,10 @@ exports.updatePersonalInfo = async (req, res) => {
       });
 
       await new Promise((resolve, reject) => {
-        uploadStream.on('finish', resolve);
-        uploadStream.on('error', reject);
-        uploadStream.end(req.file.buffer);
+        Readable.from(req.file.buffer)
+          .pipe(uploadStream)
+          .on("error", reject)
+          .on("finish", resolve);
       });
 
       // Save uploadStream.id to updateFields.profilePicture
