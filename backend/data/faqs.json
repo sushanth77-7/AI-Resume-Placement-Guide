@@ -1,0 +1,710 @@
+{
+  "roles": {
+    "MERN": [
+      {
+        "q": "What is the Virtual DOM in React and how does it work?",
+        "a": "The Virtual DOM is a lightweight, in-memory representation of the real DOM. When state changes, React creates a new Virtual DOM tree, compares it with the previous one (called 'diffing'), and calculates the minimal set of changes. It then updates only those specific parts in the real DOM (called 'reconciliation'), which prevents expensive full-page repaints and makes UI updates very fast."
+      },
+      {
+        "q": "What are the rules of using React Hooks?",
+        "a": "There are two main rules for React Hooks:\n1. Only call hooks at the top level: Do not call hooks inside loops, conditions, or nested functions to ensure they always execute in the same order.\n2. Only call hooks from React functions: Call them from React function components or custom hooks, not from regular JavaScript functions."
+      },
+      {
+        "q": "Explain the difference between state and props in React.",
+        "a": "- State: Represents the internal, local data of a component that can change over time. It is managed within the component and is mutable by using functions like setState() or the updater function from useState().\n- Props (Properties): Represents read-only data passed from a parent component down to a child component. Props are immutable within the child component."
+      },
+      {
+        "q": "How does Redux work? Explain its core principles.",
+        "a": "Redux is a pattern and library for managing global application state using three core principles:\n1. Single Source of Truth: The state of your whole application is stored in an object tree within a single store.\n2. State is Read-Only: The only way to change the state is to dispatch an action (a JS object describing what happened).\n3. Changes are Made with Pure Functions: Reducers (pure functions) take the current state and an action, and return the next state without mutating the original state."
+      },
+      {
+        "q": "Explain the Node.js Event Loop and how it handles asynchronous tasks.",
+        "a": "Node.js runs on a single thread but handles concurrent asynchronous tasks using the Event Loop. When an async task (like I/O, database query, network request) is initiated, Node delegates it to the system kernel or a worker thread in the Libuv thread pool. Once the task finishes, its callback is queued. The Event Loop continuously checks if the call stack is empty; if it is, it picks the callback from the queue and pushes it onto the stack to execute."
+      },
+      {
+        "q": "What is middleware in Express.js?",
+        "a": "Middleware functions in Express are functions that have access to the Request (req) object, Response (res) object, and the next middleware function in the application’s request-response cycle. They can execute code, modify the request and response objects, end the request-response cycle, or call the next middleware function using next(). Examples include body parsers, CORS handlers, and logger middlewares."
+      },
+      {
+        "q": "Compare MongoDB (NoSQL) vs SQL databases like MySQL/PostgreSQL in a MERN stack.",
+        "a": "MongoDB is a document-oriented NoSQL database that stores data in flexible, JSON-like BSON documents. It is schema-less, easily horizontally scalable, and ideal for unstructured data or rapidly evolving project requirements. SQL databases are relational, use structured tables with strict schemas, support complex ACID transactions, and are best suited for applications where data relationships are highly structured and transactional consistency is critical."
+      },
+      {
+        "q": "What is Mongoose and why do we use schemas in MongoDB?",
+        "a": "Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. Although MongoDB is schema-less, Mongoose allows developers to define strict schemas (data structures, validation rules, default values) at the application level. This ensures data consistency, supports middleware hooks (like pre-save encryption), and provides helper methods to interact with the database in a structured way."
+      },
+      {
+        "q": "What is the CORS error and how do you resolve it in an Express backend?",
+        "a": "Cross-Origin Resource Sharing (CORS) is a browser security feature that restricts web apps from making requests to a domain different from the one that served the app. If a React frontend (localhost:3000) requests an Express backend (localhost:5000) without explicit permission, the browser blocks it. It is resolved by installing the `cors` package in Express and applying it as middleware: `app.use(cors({ origin: 'http://localhost:3000' }))`."
+      },
+      {
+        "q": "Describe the JSON Web Token (JWT) authentication flow.",
+        "a": "1. User logs in by sending credentials (username/password) to the backend.\n2. Backend validates credentials, generates a JWT signed with a secret key, and sends it back to the client.\n3. Client stores JWT (usually in LocalStorage or HTTP-only cookie).\n4. For subsequent requests, client includes JWT in the Authorization header (e.g., Bearer <token>).\n5. Backend extracts the token, verifies the signature, and grants access to protected routes."
+      },
+      {
+        "q": "What is Server-Side Rendering (SSR) vs Client-Side Rendering (CSR)?",
+        "a": "- CSR (e.g., standard React App): The server sends a bare HTML file and a bundle of JavaScript. The browser downloads the JS, runs it, fetches data, and renders the UI. Good for rich user dashboards but slower initial load and poorer SEO.\n- SSR (e.g., Next.js): The server runs the React code, renders the HTML populated with data, and sends the complete page to the browser. Fast initial load and excellent SEO, but higher server overhead."
+      },
+      {
+        "q": "What is the MongoDB Aggregation Framework?",
+        "a": "The Aggregation Framework in MongoDB is a powerful data processing pipeline. Documents enter a multi-stage pipeline that transforms them into aggregated results. Common stages include `$match` (filters documents), `$group` (aggregates values based on a key), `$project` (reshapes documents), `$sort` (sorts documents), and `$lookup` (performs left outer joins with other collections)."
+      },
+      {
+        "q": "How do you handle asynchronous operations in Node.js? Compare Promises vs Async/Await.",
+        "a": "Asynchronous operations can be handled using Callbacks, Promises, or Async/Await.\n- Promises: Represent the eventual completion (or failure) of an async operation. They use `.then()` for success and `.catch()` for error handling, avoiding callback hell.\n- Async/Await: Syntactic sugar built on top of Promises. By declaring a function `async`, we can write asynchronous code that reads like synchronous code using the `await` keyword, improving readability and error handling via try/catch blocks."
+      },
+      {
+        "q": "Explain React Context API and how it compares to Redux.",
+        "a": "- React Context API: A built-in feature in React that allows you to share state globally without manually passing props through intermediate levels ('prop drilling'). It is lightweight and perfect for low-frequency updates (e.g., theme, user session info).\n- Redux: An external state management library that provides a structured, predictable state container. It is better suited for large-scale applications with complex state transitions, high-frequency updates, and middleware requirements (like logging or undo/redo actions)."
+      },
+      {
+        "q": "What are some ways to optimize the performance of a MERN stack application?",
+        "a": "1. Frontend: Implement code splitting using React.lazy and Suspense, virtualize long lists (react-window), lazy load images, and use useMemo/useCallback to avoid unnecessary re-renders.\n2. Backend: Add database indexes on frequently queried fields, use Redis for caching frequent static queries, compression middlewares (gzip), optimize aggregation queries, and implement rate limiting."
+      }
+    ],
+    "Full Stack": [
+      {
+        "q": "What is MVC Architecture and how does it separate concerns?",
+        "a": "Model-View-Controller (MVC) is an architectural pattern that splits an application into three parts:\n- Model: Manages data, database interaction, and business rules.\n- View: Represents the visual layout and user interface (frontend HTML/React).\n- Controller: Acts as the intermediary, receiving requests from the view, interacting with the model, and updating the view with results. This separation ensures modularity, testability, and clean code organization."
+      },
+      {
+        "q": "What are RESTful API design principles?",
+        "a": "REST (Representational State Transfer) is an architectural style based on guidelines:\n1. Uniform Interface: Standard HTTP methods (GET, POST, PUT, DELETE) represent operations on resources identified by URIs.\n2. Statelessness: Each request from client to server must contain all necessary information; the server stores no client session context.\n3. Client-Server Separation: Frontend and backend are independent.\n4. Cacheability: Responses must define themselves as cacheable or not.\n5. Layered System: Clients cannot tell whether they are connected directly to the server or intermediate proxies."
+      },
+      {
+        "q": "Explain REST APIs vs GraphQL.",
+        "a": "- REST: Exposes multiple endpoints for resources. Tends to suffer from over-fetching (retrieving more data than needed) or under-fetching (requiring multiple API calls to fetch related data).\n- GraphQL: Exposes a single endpoint. The client specifies exactly what fields it needs in a single query. It resolves over/under-fetching but adds query validation overhead and is harder to cache natively than REST."
+      },
+      {
+        "q": "What is the difference between Session-based and Token-based authentication?",
+        "a": "- Session-based: The server validates credentials, creates a session in memory/database, and sends a cookie containing a Session ID to the client. The server must look up the session on every request (stateful, harder to scale horizontally).\n- Token-based (e.g. JWT): The server signs a token containing payload info and sends it to the client. The client sends it in headers. The server verifies the signature without lookup (stateless, highly scalable, ideal for microservices)."
+      },
+      {
+        "q": "How do you decide between a SQL and NoSQL database for a project?",
+        "a": "- Choose SQL (relational) when: Data schemas are strict and unchanging, transactions require strict ACID guarantees (e.g. finance systems), and complex multi-table joins are common.\n- Choose NoSQL (non-relational) when: Data structures are hierarchical or unstructured, scalability demands high write/read speeds via horizontal scaling (sharding), or schema flexibility is needed for rapid prototyping."
+      },
+      {
+        "q": "What is Redis and how is it used in caching?",
+        "a": "Redis is an in-memory, key-value data structure store. It is extremely fast (sub-millisecond latency) because it keeps data in RAM. In full stack systems, it is used for caching: when a client requests data, the backend first checks Redis; if found (cache hit), it returns it; if not (cache miss), it queries the database, saves it to Redis for future calls, and returns it. This reduces database load and speeds up API response times."
+      },
+      {
+        "q": "What are WebSockets and when should you use them over HTTP?",
+        "a": "WebSockets provide a persistent, bi-directional, full-duplex communication channel over a single TCP connection. HTTP is request-response based (unidirectional, client must initiate). WebSockets should be used when real-time, low-latency updates are needed, such as chat applications, live sports tickers, collaborative workspaces, or real-time trading dashboards."
+      },
+      {
+        "q": "What is a CI/CD pipeline?",
+        "a": "Continuous Integration and Continuous Deployment (CI/CD) is a set of practices that automates software delivery:\n- CI (Continuous Integration): Automatically builds, merges, and tests code changes whenever a developer pushes to the repository. This detects bugs early.\n- CD (Continuous Delivery/Deployment): Automates the deployment of tested code to staging or production environments, allowing fast, reliable, and frequent software releases."
+      },
+      {
+        "q": "What is Docker and what are the benefits of containerization?",
+        "a": "Docker is a platform that packages an application and all its dependencies (libraries, runtime, system tools) into a lightweight 'container'. Benefits include:\n- Consistency: Eliminates the 'it works on my machine' problem by ensuring the app runs identically in development, testing, and production.\n- Isolation: Containers run in isolated environments on the host OS, preventing conflicts between app dependencies.\n- Resource Efficiency: Containers share the host kernel, making them much faster and lighter than virtual machines."
+      },
+      {
+        "q": "Explain Monolithic vs Microservices Architecture.",
+        "a": "- Monolithic: A single, unified codebase containing all features. Easy to build, test, and deploy initially. However, as it grows, compilation times increase, scalability is limited (must scale the entire app), and a single bug can crash the entire system.\n- Microservices: Splits the application into small, independent services communicating via APIs (REST, gRPC, or queues). Each service can use its own tech stack, scale independently, and fail gracefully without bringing down the whole system, but increases system complexity."
+      },
+      {
+        "q": "What is database migration and why is it important?",
+        "a": "Database migrations are version control files for database schemas. They define incremental changes (creating tables, adding columns, modifying constraints) using code. They are crucial because they allow developers to track schema changes over time, replicate the exact database state across different environments (local, staging, prod), and easily roll back changes if an issue occurs."
+      },
+      {
+        "q": "List common HTTP status code categories and give examples.",
+        "a": "- 1xx (Informational): Request received, continuing process.\n- 2xx (Success): Action successfully received and accepted. (e.g., 200 OK, 201 Created).\n- 3xx (Redirection): Further action needed to complete. (e.g., 301 Moved Permanently, 304 Not Modified).\n- 4xx (Client Error): Request contains bad syntax or cannot be fulfilled. (e.g., 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found).\n- 5xx (Server Error): Server failed to fulfill an apparently valid request. (e.g., 500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable)."
+      },
+      {
+        "q": "Explain XSS, CSRF, and SQL Injection, and how to prevent them.",
+        "a": "- XSS (Cross-Site Scripting): Attacker injects malicious JS into web pages viewed by users. Prevent by sanitizing/escaping all user inputs and using Content Security Policies (CSP).\n- CSRF (Cross-Site Request Forgery): Forces authenticated users to submit unauthorized requests to a web app. Prevent by using anti-CSRF tokens and setting cookie attribute SameSite=Strict.\n- SQL Injection: Attacker injects SQL code into inputs to manipulate queries. Prevent by using parameterized queries (Prepared Statements) or an ORM."
+      },
+      {
+        "q": "What is Load Balancing and what is the difference between horizontal and vertical scaling?",
+        "a": "- Load Balancing: Distributing incoming network traffic across multiple backend servers to prevent overload and ensure high availability.\n- Vertical Scaling (Scaling Up): Adding more power (CPU, RAM) to a single server. Limited by hardware capacity and introduces single points of failure.\n- Horizontal Scaling (Scaling Out): Adding more servers to the resource pool. Practically infinite scalability, requires load balancers and stateless application design."
+      },
+      {
+        "q": "What is an HTTP Preflight request in CORS?",
+        "a": "An HTTP preflight request is an OPTIONS request sent by the browser to the server before the actual request is sent. It is used to check if the CORS protocol is understood and if the server permits the actual request (based on headers like Origin, Access-Control-Request-Method, etc.). If the server approves the preflight request, the browser sends the actual GET/POST request."
+      }
+    ],
+    "Java Developer": [
+      {
+        "q": "Explain the JVM Memory Model (Heap, Stack, Metaspace).",
+        "a": "- Heap Memory: Stores all objects created in the application. It is shared among all threads and is managed by the Garbage Collector.\n- Stack Memory: Stores local variables, reference variables, and method call frames. Each thread has its own private stack, which is clean, fast, and follows LIFO.\n- Metaspace: Replaced PermGen in Java 8. Stores class metadata, method structures, and the constant pool in native memory rather than heap memory."
+      },
+      {
+        "q": "How does Garbage Collection work in Java?",
+        "a": "Garbage Collection (GC) automatically reclaims heap memory by destroying unreachable objects. The JVM splits Heap into Young Generation (short-lived objects) and Old Generation (long-lived objects). GC runs in phases: 1. Mark: identifies active objects. 2. Sweep: removes unreachable objects. Most objects die young, so minor GCs occur frequently on Young Gen. Surviving objects move to Old Gen, which triggers major GCs less frequently."
+      },
+      {
+        "q": "What are the differences between an Abstract Class and an Interface in Java 8+?",
+        "a": "- Inheritance: A class can extend only one abstract class but implement multiple interfaces.\n- Variables: Abstract classes can have instance variables (mutable state). Interfaces can only have public static final constants.\n- Methods: Abstract classes can have abstract, concrete, static, and final methods. Interfaces can have abstract, static, and default methods (introduced in Java 8 to support backward compatibility with default implementations)."
+      },
+      {
+        "q": "Explain the internal working of HashMap in Java.",
+        "a": "HashMap works on the principle of hashing. It uses an array of Nodes/Buckets. When put(key, value) is called:\n1. It computes the hash code of the key and maps it to a bucket index.\n2. If the bucket is empty, it inserts the node. If occupied (collision), it appends the node via a Linked List.\n3. In Java 8, if a bucket size exceeds 8, the Linked List is converted to a Red-Black Tree (TreeMap) to improve lookup time from O(N) to O(log N).\n4. When get(key) is called, it hashes the key, finds the bucket index, and traverses the list/tree using .equals() comparison."
+      },
+      {
+        "q": "What is the difference between Runnable and Callable interfaces in Java?",
+        "a": "- Runnable: Has a run() method that returns void and cannot throw checked exceptions. Introduced in Java 1.0.\n- Callable: Has a call() method that returns a generic value V (used with Future objects) and can throw checked exceptions. Introduced in Java 5.0 for concurrent task executions."
+      },
+      {
+        "q": "Explain the Java Exception hierarchy. What is the difference between Checked and Unchecked Exceptions?",
+        "a": "All exceptions inherit from Throwable, which has two subclasses: Error (system-level issues like OutOfMemoryError) and Exception.\n- Checked Exceptions: Inherit directly from Exception (e.g. IOException, SQLException). They must be handled at compile-time using try-catch or declared in the method signature using throws.\n- Unchecked Exceptions: Inherit from RuntimeException (e.g. NullPointerException, ArithmeticException). They represent programming logic flaws and do not need compile-time handling."
+      },
+      {
+        "q": "What are Java 8 Streams and how do they work?",
+        "a": "A Stream is a sequence of elements supporting sequential and parallel aggregate operations. It does not store data; instead, it pipelines data from collections/sources through intermediate operations (e.g., filter, map, sorted) which are lazy (do not execute until a terminal operation is called) and returns a result via a terminal operation (e.g., collect, forEach, reduce)."
+      },
+      {
+        "q": "What is IoC (Inversion of Control) and Dependency Injection in Spring?",
+        "a": "- IoC (Inversion of Control): A design principle where the control of object creation and lifecycle management is transferred from the application code to the framework container (Spring IoC Container).\n- Dependency Injection (DI): The concrete mechanism where dependencies (services, databases) are supplied to a class by the container (either via Constructor, Setter, or Field injection) rather than the class creating them itself."
+      },
+      {
+        "q": "What are the key annotations in a Spring Boot application?",
+        "a": "- `@SpringBootApplication`: Combines @Configuration, @EnableAutoConfiguration, and @ComponentScan.\n- `@RestController`: Marks the class as a web controller where methods return JSON/XML directly.\n- `@Autowired`: Marks a constructor, field, or setter for automatic dependency injection.\n- `@Service`, `@Repository`, `@Component`: Declares classes as Spring-managed beans.\n- `@GetMapping`, `@PostMapping`: Shortcut annotations for mapping HTTP web requests."
+      },
+      {
+        "q": "Explain First-Level vs Second-Level Caching in Hibernate.",
+        "a": "- First-Level Cache: Session-scoped cache. Enabled by default. Holds objects loaded within the current transaction session. Closed when the session is closed.\n- Second-Level Cache: SessionFactory-scoped cache. Optional and requires configuration (e.g., using Ehcache). Shared across all sessions and applications, persisting objects even after individual sessions terminate."
+      },
+      {
+        "q": "Compare final, finally, and finalize in Java.",
+        "a": "- `final`: A keyword used to restrict modification. Applied to variables (constant), methods (cannot be overridden), or classes (cannot be inherited).\n- `finally`: A block used in try-catch-finally structures to execute cleanup code (like closing streams). It runs regardless of whether an exception is thrown or caught.\n- `finalize`: A method in Object class called by the Garbage Collector just before an object is reclaimed. Deprecated in Java 9+."
+      },
+      {
+        "q": "What is the difference between String, StringBuilder, and StringBuffer?",
+        "a": "- `String`: Immutable sequence of characters. Modifying a string creates a new object in the String Pool.\n- `StringBuilder`: Mutable sequence. Fast, but not thread-safe (not synchronized). Best for single-threaded string manipulations.\n- `StringBuffer`: Mutable sequence. Thread-safe (methods are synchronized) but slower than StringBuilder due to synchronization overhead."
+      },
+      {
+        "q": "Explain Statement vs PreparedStatement in JDBC.",
+        "a": "- Statement: Compiles the SQL query on the database every time it executes. Prone to SQL Injection because values are concatenated directly into the query.\n- PreparedStatement: Pre-compiles the query and stores it in the database cache. Faster for repetitive executions, secure against SQL Injection because it uses placeholders (?) and parameter bindings."
+      },
+      {
+        "q": "How do you implement microservice patterns in Spring Cloud?",
+        "a": "Spring Cloud provides tools to implement common patterns:\n- Service Discovery: Eureka Server (microservices register here so they can discover each other dynamically).\n- API Gateway: Spring Cloud Gateway (routes requests, handles rate limiting, authentication).\n- Circuit Breaker: Resilience4j (stops cascading failures if a service goes down).\n- Configuration Management: Spring Cloud Config Server (centralized external application configurations)."
+      },
+      {
+        "q": "What are Java Generics and Type Erasure?",
+        "a": "Generics provide compile-time type safety, allowing classes and methods to operate on generic types (e.g. List<String>). Type Erasure is the process where the Java compiler replaces generic type parameters with their bounds (or Object) during compilation. Consequently, the bytecode does not contain generic type information, ensuring backward compatibility with older Java versions."
+      }
+    ],
+    "AI/ML Engineer": [
+      {
+        "q": "What is the difference between Supervised and Unsupervised Learning?",
+        "a": "- Supervised Learning: The model trains on labeled data (input-output pairs). It learns a mapping function from inputs to outputs (e.g. classification, regression).\n- Unsupervised Learning: The model trains on unlabeled data. It seeks to discover hidden patterns, structures, or groupings within the data (e.g. clustering, dimensionality reduction, association rule learning)."
+      },
+      {
+        "q": "Explain the Bias-Variance Tradeoff.",
+        "a": "- Bias: Error due to erroneous or oversimplified assumptions in the learning algorithm (leads to Underfitting; model is too simple).\n- Variance: Error from sensitivity to small fluctuations in the training set (leads to Overfitting; model learns training noise instead of pattern).\n- Tradeoff: Minimizing bias increases variance, and vice versa. An optimal model finds the sweet spot that minimizes total error on unseen data."
+      },
+      {
+        "q": "What is Overfitting and how do you prevent it in Machine Learning?",
+        "a": "Overfitting occurs when a model performs exceptionally well on the training data but fails to generalize to unseen test data because it has memorized the noise. It is prevented by:\n1. Regularization (L1/L2 penalties).\n2. Cross-validation to monitor performance.\n3. Adding more training data.\n4. Feature selection (removing irrelevant inputs).\n5. Ensembling (e.g., Random Forests).\n6. Early stopping in neural networks."
+      },
+      {
+        "q": "What is Gradient Descent and what are its main variants?",
+        "a": "Gradient Descent is an optimization algorithm that minimizes a model's loss function by iteratively moving in the direction of steepest descent (negative gradient). Variants:\n- Batch GD: Computes gradient using the entire training set. Stable, but very slow for large datasets.\n- Stochastic GD (SGD): Computes gradient using a single random training sample. Fast, but noisy and fluctuates.\n- Mini-batch GD: Computes gradient using a subset (batch size 32, 64, etc.) of data. Combines speed of SGD and stability of Batch GD."
+      },
+      {
+        "q": "Compare L1 (Lasso) vs L2 (Ridge) Regularization.",
+        "a": "Regularization adds a penalty term to the loss function to prevent overfitting:\n- L1 Regularization (Lasso): Adds the absolute values of the weights as a penalty. It drives less important feature weights to exactly zero, performing feature selection.\n- L2 Regularization (Ridge): Adds the squared values of the weights as a penalty. It shrinks weights close to zero but never exactly zero, keeping all features but reducing their influence."
+      },
+      {
+        "q": "Explain the metrics: Precision, Recall, F1-Score, and ROC-AUC.",
+        "a": "- Precision: TP / (TP + FP). Out of all predicted positives, how many were actually positive? (Minimizes false positives).\n- Recall (Sensitivity): TP / (TP + FN). Out of all actual positives, how many did we predict? (Minimizes false negatives).\n- F1-Score: Harmonic mean of Precision and Recall. Best for imbalanced classes.\n- ROC-AUC: Area under the Receiver Operating Characteristic curve. Measures the model's ability to distinguish between classes across all decision thresholds."
+      },
+      {
+        "q": "How does Random Forest differ from a Decision Tree?",
+        "a": "- Decision Tree: A single hierarchical flowchart structure that splits data based on feature conditions. Easy to interpret, but highly prone to overfitting.\n- Random Forest: An ensemble learning method that builds a collection of independent decision trees using bagging (bootstrap aggregating) and random feature selection, then averages their predictions. This significantly reduces variance and overfitting."
+      },
+      {
+        "q": "Compare CNN vs RNN architectures.",
+        "a": "- CNN (Convolutional Neural Network): Uses spatial weight sharing (filters) to capture patterns in spatial data (grid-like structures like images). Focuses on local feature extraction.\n- RNN (Recurrent Neural Network): Has feedback connections that persist information, processing inputs sequentially. Perfect for temporal or sequential data (like time-series data or natural language text)."
+      },
+      {
+        "q": "What is feature scaling and why is it important?",
+        "a": "Feature scaling normalizes the range of independent features (e.g. Min-Max normalization or Standardization). It is critical for algorithms that calculate distances (like KNN, K-Means, SVM) or use Gradient Descent optimization. Without scaling, features with larger magnitudes will dominate distance calculations and cause optimization to take much longer to converge."
+      },
+      {
+        "q": "Explain the Backpropagation algorithm in Deep Learning.",
+        "a": "Backpropagation is the algorithm used to train neural networks. It has two passes:\n1. Forward Pass: Input is passed through the network layers to calculate the final prediction and the loss.\n2. Backward Pass: The gradient of the loss function is calculated with respect to each weight using the Chain Rule, moving backward from output to input layers. These gradients are then used by an optimization algorithm (like SGD or Adam) to update weights and minimize loss."
+      },
+      {
+        "q": "What is the Transformer architecture and how does Self-Attention work?",
+        "a": "Transformers replaced sequential RNNs in NLP by using parallel processing. The core component is Self-Attention, which calculates the relevance of each word in a sequence relative to all other words. It does this by projecting inputs into Query (Q), Key (K), and Value (V) matrices, computing compatibility (softmax(QK^T / sqrt(d_k))), and multiplying by V. This captures long-range dependencies instantly without step-by-step recurrence."
+      },
+      {
+        "q": "How does the K-Means clustering algorithm work?",
+        "a": "K-Means is an unsupervised clustering algorithm. Steps:\n1. Initialize 'K' random cluster centroids.\n2. Assign each data point to its closest centroid (using Euclidean distance).\n3. Recompute centroids as the mean of all data points assigned to that cluster.\n4. Repeat steps 2 and 3 until centroids stop shifting or max iterations are reached. It is sensitive to initial centroid selection (mitigated by K-Means++) and outliers."
+      },
+      {
+        "q": "What is Cross-Validation and why is it used?",
+        "a": "Cross-Validation (like K-Fold) is a resampling technique used to evaluate model generalization. The dataset is split into K equal folds. The model is trained on K-1 folds and validated on the remaining 1 fold. This process is repeated K times so that every fold acts as the validation set once. The average validation score is reported, which provides a more robust performance metric and avoids bias from a single train/test split."
+      },
+      {
+        "q": "What are Loss Functions? Compare MSE and Cross-Entropy.",
+        "a": "Loss functions measure the mathematical difference between actual values and model predictions:\n- Mean Squared Error (MSE): Used in regression. Calculates the average of the squared differences. Penalizes large errors heavily.\n- Cross-Entropy (Log Loss): Used in classification. Measures the difference between predicted probability distributions and true labels. Penalizes confident wrong predictions heavily."
+      },
+      {
+        "q": "How do you deploy and monitor a Machine Learning model in production?",
+        "a": "1. Packaging: Wrap model object (pickle/ONNX) inside an API container (Flask/FastAPI + Docker).\n2. Deployment: Host on Kubernetes (EKS/GKE), serverless (AWS Lambda), or managed platforms (SageMaker, Vertex AI).\n3. Monitoring: Track pipeline inputs for 'Data Drift' (statistical changes in input distributions) and model predictions for 'Concept Drift' (changes in target relationships) to trigger retraining."
+      }
+    ],
+    "Data Analyst": [
+      {
+        "q": "What is the role of a Data Analyst compared to a Data Scientist?",
+        "a": "- Data Analyst: Focuses on descriptive and diagnostic analytics. They clean, query, and visualize historical data to answer specific business questions and create dashboards (SQL, Excel, Tableau).\n- Data Scientist: Focuses on predictive and prescriptive analytics. They build machine learning models, run experiments, and design algorithms to forecast future outcomes (Python, R, advanced statistics)."
+      },
+      {
+        "q": "What are the key steps in the Data Cleaning process?",
+        "a": "1. Handling missing data (imputing values, deleting rows, or filling with defaults).\n2. Removing duplicate rows.\n3. Identifying and resolving outliers.\n4. Fixing structural errors (inconsistent naming conventions, typos, incorrect data types).\n5. Validating schema constraints and logical relations (e.g., negative ages)."
+      },
+      {
+        "q": "Explain different types of Joins in SQL.",
+        "a": "- Inner Join: Returns records that have matching values in both tables.\n- Left (Outer) Join: Returns all records from the left table, and matched records from the right table. (Unmatched right rows get NULL).\n- Right (Outer) Join: Returns all records from the right table, and matched records from the left table.\n- Full (Outer) Join: Returns all records when there is a match in either left or right table."
+      },
+      {
+        "q": "What is the difference between GROUP BY and ORDER BY in SQL?",
+        "a": "- GROUP BY: Groups rows that have the same values into summary rows (e.g. finding the sum of sales grouped by department). It requires aggregate functions (SUM, AVG, COUNT).\n- ORDER BY: Sorts the final result set of a query in ascending (ASC) or descending (DESC) order based on one or more columns."
+      },
+      {
+        "q": "Explain Mean, Median, and Mode. When should you use what?",
+        "a": "- Mean: Average value. Used for symmetric numerical data without extreme outliers.\n- Median: Middle value when sorted. Ideal for skewed data or datasets with severe outliers (e.g. household income) because it is not pulled by extremes.\n- Mode: Most frequent value. Best for categorical data (e.g. identifying the most popular product category)."
+      },
+      {
+        "q": "What is the difference between Correlation and Causation?",
+        "a": "- Correlation: A statistical relationship between two variables where they move together (e.g. ice cream sales and sunscreen sales increase together).\n- Causation: A direct cause-and-effect relationship where one variable changes because of the other. Correlation does not imply causation, as there might be a confounding third variable (e.g. hot summer weather)."
+      },
+      {
+        "q": "What is A/B Testing in Data Analysis?",
+        "a": "A/B testing is a statistical hypothesis testing experiment where two versions of a webpage or product (A and B) are compared to see which performs better. Users are randomly split into control (A) and treatment (B) groups. Metrics are collected, and statistical tests (like t-test or chi-square) are run to check if the difference in performance is statistically significant."
+      },
+      {
+        "q": "What are the core design principles of Data Visualization?",
+        "a": "1. Select the right chart: Line charts for trends, Bar charts for comparisons, Scatter plots for relationships.\n2. Keep it clean: Maximize the data-ink ratio (remove clutter like heavy gridlines).\n3. Use color strategically: Highlight key metrics, avoid overwhelming palettes.\n4. Provide context: Use titles, labels, legends, and footnotes clearly."
+      },
+      {
+        "q": "How do you handle missing values in a dataset?",
+        "a": "1. Deletion: Drop rows/columns with missing data. (Use only when missingness is low < 5%).\n2. Imputation: Fill missing values with statistical measures (mean, median, mode) or predict them using regression/KNN.\n3. Keep as is: Add an indicator variable (e.g. 'Unknown' for categories) to preserve records."
+      },
+      {
+        "q": "Compare VLOOKUP vs XLOOKUP in Excel.",
+        "a": "- VLOOKUP: Searches for a value in the first column of a table and returns a value in the same row from a specified column. Limited to searching left-to-right, requires column index numbers, and can break if columns are inserted.\n- XLOOKUP: Modern replacement. Can search both left and right, defaults to exact match, allows horizontal lookups, and doesn't break when columns are added or deleted."
+      },
+      {
+        "q": "Explain Pandas and NumPy libraries in Python.",
+        "a": "- NumPy: Provides support for large, multi-dimensional arrays and matrices, along with high-level mathematical functions to operate on them. Extremely fast because it is written in C.\n- Pandas: Built on top of NumPy. Exposes key structures like Series (1D) and DataFrames (2D tables) to perform data manipulation, filtering, merging, cleaning, and time-series analysis."
+      },
+      {
+        "q": "What is the ETL process?",
+        "a": "ETL stands for Extract, Transform, Load:\n- Extract: Collecting raw data from various source databases, API endpoints, or file systems.\n- Transform: Cleaning, filtering, structuring, and aggregating data to match target schemas and business rules.\n- Load: Writing the transformed data into a data warehouse or analytical database for reporting."
+      },
+      {
+        "q": "How do you detect outliers in a dataset?",
+        "a": "1. Z-Score: Outliers have a Z-Score greater than 3 or less than -3 (meaning they are more than 3 standard deviations from the mean).\n2. IQR Method: Outliers are values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR (where IQR = Q3 - Q1).\n3. Visualization: Using Box plots, Scatter plots, or Histograms."
+      },
+      {
+        "q": "What is Exploratory Data Analysis (EDA)?",
+        "a": "EDA is the process of analyzing datasets to summarize their main characteristics, often using visual methods. The goal is to understand data distributions, identify anomalies, detect patterns, check assumptions, and form hypotheses for further statistical modeling."
+      },
+      {
+        "q": "What are SQL Window Functions and how do ROW_NUMBER, RANK, and DENSE_RANK differ?",
+        "a": "Window functions perform calculations across a set of table rows related to the current row without grouping them. Differences:\n- `ROW_NUMBER`: Assigns a unique, sequential integer to each row (e.g., 1, 2, 3, 4).\n- `RANK`: Assigns a rank. If there's a tie, they get the same rank, and it skips the next rank (e.g., 1, 2, 2, 4).\n- `DENSE_RANK`: Assigns a rank. If there's a tie, they get the same rank, and it does NOT skip the next rank (e.g., 1, 2, 2, 3)."
+      }
+    ],
+    "Python Developer": [
+      {
+        "q": "What is the Python GIL (Global Interpreter Lock)?",
+        "a": "The GIL is a mutex that protects access to Python objects, preventing multiple native threads from executing Python bytecodes at once in CPython. This ensures thread safety for memory management but limits CPU-bound multithreaded programs to run on a single CPU core. To achieve true parallel execution on multi-core systems, Python developers use multiprocessing instead of multithreading."
+      },
+      {
+        "q": "What is the difference between List Comprehensions and Generator Expressions?",
+        "a": "- List Comprehension: Evaluates immediately and creates a complete list in memory. Syntax: `[x for x in range(10)]`.\n- Generator Expression: Returns a generator object that evaluates lazily, producing values on-the-fly when requested. Syntax: `(x for x in range(10))`. Highly memory efficient for processing large datasets."
+      },
+      {
+        "q": "What are Decorators in Python?",
+        "a": "A decorator is a function that takes another function as an argument, extends or modifies its behavior without explicitly changing its source code, and returns a new function. They are commonly used for logging, authorization, caching, or timing function executions. Represented by the `@decorator_name` syntax."
+      },
+      {
+        "q": "Explain Generators and the 'yield' keyword.",
+        "a": "Generators are special functions that return an iterator. Instead of using `return` to send back a value and terminate, they use `yield` to yield a value and temporarily pause execution, saving the state. When `next()` is called on the generator, it resumes right after the yield statement. This allows processing of large data streams without loading the entire collection into memory."
+      },
+      {
+        "q": "What are *args and **kwargs in Python?",
+        "a": "- `*args`: Allows a function to accept any number of positional arguments as a tuple.\n- `**kwargs`: Allows a function to accept any number of keyword arguments as a dictionary. They make functions highly flexible."
+      },
+      {
+        "q": "How does memory management work in Python?",
+        "a": "Python manages memory automatically using reference counting and a generational Garbage Collector. Reference counting tracks the number of references to an object; when it drops to zero, the memory is freed. To handle circular references (which reference counting cannot resolve), Python's GC detects reference cycles in isolated generations and deletes them."
+      },
+      {
+        "q": "Explain the difference between Deep Copy and Shallow Copy.",
+        "a": "- Shallow Copy: Creates a new object but references the nested child elements of the original object. Changes to nested elements in the copy will affect the original. (`copy.copy()`).\n- Deep Copy: Creates a new object and recursively copies all nested child elements. The copy is completely independent of the original. (`copy.deepcopy()`)."
+      },
+      {
+        "q": "What are Virtual Environments in Python?",
+        "a": "Virtual environments are isolated directories containing specific versions of Python and required external libraries. They prevent dependency conflicts between different projects (e.g. Project A needing Django 3 and Project B needing Django 4) and ensure clean, reproducible development setups. Tools include `venv`, `virtualenv`, and `pipenv`."
+      },
+      {
+        "q": "How do you run unit tests in Python?",
+        "a": "Python has a built-in module `unittest` to write and run test suites. Alternatively, `pytest` is a popular third-party framework that supports simpler syntax, fixture setups, and parameterized tests. Tests are run from the CLI (e.g. `pytest test_file.py`)."
+      },
+      {
+        "q": "Compare Django vs Flask vs FastAPI.",
+        "a": "- Django: A batteries-included, full-featured web framework. Follows 'MTV' pattern, includes an ORM, admin panel, and auth module. Heavy but ideal for large enterprise sites.\n- Flask: A micro-framework. Very lightweight, unopinionated, leaving database and auth choices to the developer. Perfect for small projects and microservices.\n- FastAPI: A modern, high-performance async framework. Built on Starlette and Pydantic, supports automatic API documentation (Swagger), native async/await, and is extremely fast."
+      },
+      {
+        "q": "What is Duck Typing in Python?",
+        "a": "Duck Typing is a programming concept related to dynamic typing: \"If it walks like a duck and quacks like a duck, it's a duck.\" In Python, a function doesn't check the class type of an argument; it only checks if the object implements the required method or behavior. (e.g. if an object has a `read()` method, it can be treated as a file-like object)."
+      },
+      {
+        "q": "What are Lambda functions in Python?",
+        "a": "Lambda functions are small, anonymous, single-expression functions. Syntax: `lambda arguments: expression`. They can take any number of arguments but can only have one expression, returning the result. Commonly used for short-lived operations inside functions like `map()`, `filter()`, or `sorted()`."
+      },
+      {
+        "q": "What are Dunder/Magic methods?",
+        "a": "Dunder (Double Underscore) methods are built-in Python methods prefixed and suffixed with double underscores (e.g. `__init__`, `__str__`, `__add__`). They allow developers to define how custom objects behave in built-in contexts, such as object initialization, conversion to string, mathematical addition, or element lookup."
+      },
+      {
+        "q": "How does async/await work in Python?",
+        "a": "Asyncio is a library to write concurrent code using the async/await syntax. An `async def` function declares a coroutine. The `await` keyword pauses execution of the coroutine, giving control back to the event loop to run other tasks while waiting for I/O operations to complete, making it highly efficient for network-bound tasks."
+      },
+      {
+        "q": "Explain Multiprocessing vs Multithreading in Python.",
+        "a": "- Multithreading: Spawns threads sharing the same memory space. Because of the GIL, it is useful only for I/O-bound tasks (waiting for network, files).\n- Multiprocessing: Spawns separate processes, each with its own memory space and Python interpreter. Bypasses the GIL to achieve true parallelism on multi-core CPUs, ideal for CPU-bound tasks (data processing, heavy calculations)."
+      }
+    ],
+    "Frontend Developer": [
+      {
+        "q": "Explain the CSS Box Model.",
+        "a": "The CSS Box Model is a container that wraps every HTML element. It consists of four parts, from inside out:\n1. Content: The actual text or images inside the element.\n2. Padding: The space between the content and the border (transparent).\n3. Border: The line surrounding the padding and content.\n4. Margin: The space outside the border separating the element from neighbors (transparent). `box-sizing: border-box` makes width/height include padding and border."
+      },
+      {
+        "q": "Compare Flexbox vs CSS Grid.",
+        "a": "- Flexbox: A one-dimensional layout model (aligns elements along a row OR a column). Best for aligning items in components, navbars, or single-axis layouts.\n- CSS Grid: A two-dimensional layout model (aligns elements along BOTH rows and columns simultaneously). Best for complex page layouts, dashboards, and grid systems."
+      },
+      {
+        "q": "What are the benefits of Semantic HTML?",
+        "a": "Semantic HTML uses tags that clearly describe their meaning to both the browser and developer (e.g. <header>, <nav>, <article>, <footer> instead of generic <div>). Benefits:\n- Accessibility (a11y): Screen readers use semantic structure to navigate.\n- SEO: Search engines index pages better based on semantic tags.\n- Maintainability: Code is easier for developers to read and update."
+      },
+      {
+        "q": "Explain Event Bubbling vs Event Capturing.",
+        "a": "They are the two phases of JS event propagation:\n- Event Capturing (Trickling): The event starts from the window and trickles down through the DOM tree to the target element.\n- Event Bubbling: The event starts from the target element and bubbles up through parent elements to the window. In standard JS, bubbling is the default phase. It is stopped using `event.stopPropagation()`."
+      },
+      {
+        "q": "What is a Closure in JavaScript?",
+        "a": "A closure is a combination of a function bundled together with references to its surrounding state (the lexical environment). In simple terms, a closure gives an inner function access to variables of its outer parent function, even after the outer function has finished executing and returned."
+      },
+      {
+        "q": "Explain JavaScript Promises and Async/Await.",
+        "a": "- Promise: An object representing the eventual completion (or failure) of an async operation. It can be Pending, Fulfilled, or Rejected, and uses `.then()` and `.catch()`.\n- Async/Await: Syntactic sugar on top of Promises. A function marked `async` always returns a Promise. The `await` keyword pauses execution until the Promise resolves, allowing asynchronous code to look like clean, synchronous code."
+      },
+      {
+        "q": "What are Debouncing and Throttling?",
+        "a": "Both optimize performance by controlling how often a function executes:\n- Debouncing: Delays function execution until a certain time has elapsed since the last call. (e.g., waiting for a user to stop typing before trigger search API).\n- Throttling: Enforces a maximum number of times a function can be called over a given time interval. (e.g., executing scroll handler at most once every 100ms)."
+      },
+      {
+        "q": "What are CSS Preprocessors and why use them?",
+        "a": "CSS Preprocessors (like SASS/SCSS) extend CSS with programming features like variables, nested rules, mixins, functions, and file imports. This keeps stylesheets DRY (Don't Repeat Yourself), highly organized, and easier to scale in large frontend projects."
+      },
+      {
+        "q": "How do you optimize web page performance?",
+        "a": "1. Code optimization: Minify HTML/CSS/JS, use code splitting and lazy loading (React.lazy).\n2. Asset optimization: Compress images (use WebP), load fonts locally or preconnect to CDNs.\n3. Caching: Leverage browser caching, service workers, and CDN delivery.\n4. Execution: Place scripts correctly (defer/async), avoid blocking main thread."
+      },
+      {
+        "q": "What is Web Accessibility (a11y) and WAI-ARIA?",
+        "a": "Web Accessibility means designing websites so everyone can use them, including people with visual, auditory, or motor impairments. WAI-ARIA (Web Accessibility Initiative - Accessible Rich Internet Applications) is a set of attributes added to HTML elements (like `role=\"button\"` or `aria-expanded`) to provide screen readers with context for dynamic, non-semantic UI widgets."
+      },
+      {
+        "q": "Compare LocalStorage, SessionStorage, and Cookies.",
+        "a": "- LocalStorage: Stores data in the browser with no expiration date. Capacity is ~5-10MB. Accessed via JS only.\n- SessionStorage: Stores data for the duration of the page session (wiped when tab closes). Capacity is ~5MB. Accessed via JS.\n- Cookies: Stores small data (~4KB) with set expiration dates. Transmitted to the server on every HTTP request, making them ideal for session tokens."
+      },
+      {
+        "q": "What is Responsive Design and how is it implemented?",
+        "a": "Responsive Design is an approach where web pages render well on all devices and screen sizes. It is implemented using:\n1. Media Queries: Applying CSS rules based on screen size (e.g., `@media (max-width: 768px)`).\n2. Fluid Layouts: Using relative units (%, em, rem, vh, vw) instead of fixed pixels.\n3. Flexible Images: Setting `max-width: 100%; height: auto;`.\n4. Responsive Grids: Flexbox and CSS Grid."
+      },
+      {
+        "q": "What are the differences between Virtual DOM and Real DOM?",
+        "a": "- Real DOM: Directly represents the HTML page. Updates are slow because changing a node triggers reflow and repaint of the layout, which is computationally expensive.\n- Virtual DOM: A lightweight JS copy of the Real DOM. Updates are virtual and fast. React updates the Virtual DOM, diffs it against the old one, and batches the changes to minimize real DOM manipulations."
+      },
+      {
+        "q": "How do you prevent Cross-Site Scripting (XSS) on the frontend?",
+        "a": "1. Escape user input before rendering it in the DOM.\n2. Do not use direct insertion methods like `innerHTML` or `dangerouslySetInnerHTML` in React unless inputs are strictly sanitized (e.g., with DOMPurify).\n3. Use Content Security Policy (CSP) headers to restrict source domains for scripts.\n4. Set HTTP-only flags on sensitive cookies to prevent JS access."
+      },
+      {
+        "q": "Compare Single Page Applications (SPA) vs Multi-Page Applications (MPA).",
+        "a": "- SPA (e.g., React, Vue): Loads a single HTML page and updates the content dynamically via JavaScript as the user interacts. Smooth transitions, fast sub-page loads, but larger initial bundle and trickier SEO setup.\n- MPA (e.g., Traditional PHP/Rails): Every click requests a completely new HTML page from the server. Slower transitions, but small initial load and excellent SEO out-of-the-box."
+      }
+    ],
+    "Backend Developer": [
+      {
+        "q": "What are RESTful API design constraints?",
+        "a": "1. Client-Server: Separation of UI concerns from data storage concerns.\n2. Stateless: Each request must contain all context needed to execute. Server stores no session state.\n3. Cacheable: Responses must declare whether they can be cached.\n4. Uniform Interface: Identifies resources (URIs) and manipulates them through representations (HTTP methods).\n5. Layered System: Allow structural intermediate layers (proxies, load balancers)."
+      },
+      {
+        "q": "How does database indexing work? Explain B-Trees.",
+        "a": "An index is a data structure (commonly a B-Tree or B+ Tree) that makes queries faster by avoiding full-table scans. A B-Tree is a self-balancing search tree. It stores keys in sorted order, with nodes having multiple children. Searching travels from root to leaf, pruning pathways based on key ranges. This reduces lookup time from O(N) linear scan to O(log N) logarithmic lookup, but slows down writes/inserts because the tree must rebalance."
+      },
+      {
+        "q": "Explain caching strategies like Write-through and Cache-aside.",
+        "a": "- Cache-aside (Lazy loading): The app checks the cache. On miss, it queries the DB, writes results to cache, and returns. Simple, but first-time reads are slow and stale data can occur.\n- Write-through: The app writes data directly to the cache, and the cache immediately writes it to the database. Ensures data is always fresh, but adds write latency and loads cache with unused data."
+      },
+      {
+        "q": "What are common Rate Limiting algorithms?",
+        "a": "- Token Bucket: Tokens are added to a bucket at a constant rate. Requests consume tokens. Handles bursts of traffic.\n- Leaky Bucket: Requests are queued and processed at a constant output rate. Smooths out traffic spikes.\n- Fixed Window Counter: Counts requests in predefined time windows (e.g. 100 req/min). Prone to bursts at window boundaries.\n- Sliding Window Log/Counter: Tracks requests precisely to avoid boundary bursts."
+      },
+      {
+        "q": "What is Database Connection Pooling?",
+        "a": "Opening a new database connection for every API request is expensive (involves network roundtrips and handshakes). Connection Pooling creates a cache of active database connections when the server starts. When a request needs to query the database, it borrows an idle connection from the pool, uses it, and returns it when done. This minimizes overhead and boosts API throughput."
+      },
+      {
+        "q": "Explain the ACID properties of database transactions.",
+        "a": "- Atomicity: All operations in a transaction succeed, or the entire transaction is rolled back (All-or-Nothing).\n- Consistency: A transaction transforms the database from one valid state to another, maintaining all constraints/rules.\n- Isolation: Concurrent transactions do not interfere with each other; they execute as if running sequentially.\n- Durability: Once a transaction commits, its changes survive system crashes or power failures."
+      },
+      {
+        "q": "What is the difference between Horizontal and Vertical Scaling?",
+        "a": "- Vertical Scaling (Scaling Up): Upgrading a single server's CPU, RAM, or Storage. Easy to implement, but has physical limits and introduces single points of failure.\n- Horizontal Scaling (Scaling Out): Adding more servers to distribute load. Practically unlimited, ensures high availability, but requires a load balancer and stateless application design."
+      },
+      {
+        "q": "What are authentication mechanisms: OAuth2 vs JWT vs Sessions?",
+        "a": "- Sessions: Stateful. Server stores session in database/memory; client stores Session ID in cookie. High security but harder to scale.\n- JWT: Stateless. Self-contained token signed by server. Scalable, but cannot be easily revoked before expiration.\n- OAuth2: An authorization framework. Allows third-party applications to obtain limited access to user accounts (via access tokens) without sharing credentials."
+      },
+      {
+        "q": "What are Message Queues and when do you use them?",
+        "a": "Message Queues (like RabbitMQ, ActiveMQ) or event brokers (Apache Kafka) allow backend services to communicate asynchronously. You use them to decouple services, handle long-running background tasks (e.g., sending emails, video processing) without blocking API response times, and buffer traffic spikes so downstream services don't crash."
+      },
+      {
+        "q": "Explain Database Replication vs Sharding.",
+        "a": "- Replication: Copying the database across multiple servers (Primary-Replica). The Primary handles writes, while Replicas handle read queries. Increases read throughput and provides backups.\n- Sharding: Splitting a single database horizontally into smaller, independent databases (shards), with each shard holding a subset of rows based on a shard key (e.g., user ID). Increases both read and write capacity."
+      },
+      {
+        "q": "How does CORS and CSRF protection work on the backend?",
+        "a": "- CORS: The backend sets headers (like Access-Control-Allow-Origin) to specify which origins are allowed to read responses. Browsers block reads from unauthorized origins.\n- CSRF: The backend generates a unique token when rendering forms or starting sessions. The client must include this token in state-changing requests (POST/PUT). The backend validates the token, rejecting forged cross-site requests."
+      },
+      {
+        "q": "Compare REST vs gRPC vs Message Brokers for Microservice communication.",
+        "a": "- REST: Uses HTTP/1.1 and JSON. Simple, human-readable, widely supported, but synchronous and relatively slow due to text-based payloads.\n- gRPC: Uses HTTP/2 and Protocol Buffers (binary serialization). Extremely fast, supports streaming, has strict contracts, but harder to debug.\n- Message Brokers (AMQP/Kafka): Asynchronous, event-driven. Decoupled services send events to a queue. Highly scalable and resilient, but adds architectural complexity."
+      },
+      {
+        "q": "What is Distributed Tracing?",
+        "a": "In microservices, a single client request can trigger a chain of calls across dozens of services. Distributed Tracing tracks this request by assigning a unique Trace ID at the entry point and propagating it through all downstream calls. This allows developers to visualize the entire request path, measure latency at each hop, and debug where bottlenecks or failures occur."
+      },
+      {
+        "q": "What are common Load Balancing algorithms?",
+        "a": "- Round Robin: Requests are distributed sequentially across servers.\n- Weighted Round Robin: Servers with higher capacity receive more requests.\n- Least Connections: Directs requests to the server with the fewest active sessions.\n- IP Hash: Uses the client's IP address to determine which server gets the request, ensuring session persistence."
+      },
+      {
+        "q": "Compare WebSockets, Long Polling, and Server-Sent Events (SSE).",
+        "a": "- WebSockets: Bi-directional, persistent connection over TCP. Ideal for high-frequency interactive apps (games, chats).\n- SSE: Uni-directional (server-to-client) persistent connection over standard HTTP. Ideal for real-time tickers, dashboard updates.\n- Long Polling: Client requests data, server holds request open until new data is ready. Client immediately sends new request. Heavy server overhead, legacy approach."
+      }
+    ]
+  },
+  "coreCS": {
+    "OOPS": [
+      {
+        "q": "What are the four pillars of OOPs? Explain with brief definitions.",
+        "a": "1. Inheritance: Acquiring properties and behaviors from a parent class to a child class, promoting code reusability.\n2. Polymorphism: The ability of an object or method to take on multiple forms (e.g. method overloading and overriding).\n3. Encapsulation: Binding data (variables) and code (methods) together into a single unit (class) and restricting direct access using access modifiers.\n4. Abstraction: Hiding implementation details and showing only essential functionality to the user (using interfaces or abstract classes)."
+      },
+      {
+        "q": "What is the difference between Abstraction and Encapsulation?",
+        "a": "- Abstraction: Solves design-level problems. Focuses on 'what' the object does rather than 'how' it does it. Accomplished using interfaces and abstract classes.\n- Encapsulation: Solves implementation-level problems. Focuses on 'how' to secure the state. It binds data and methods, preventing external direct modification. Accomplished using private variables and public getters/setters."
+      },
+      {
+        "q": "Explain Method Overloading vs Method Overriding.",
+        "a": "- Method Overloading (Compile-time Polymorphism): Multiple methods in the same class have the same name but different signatures (different number/type of arguments).\n- Method Overriding (Run-time Polymorphism): A child class provides a specific implementation of a method that is already defined in its parent class (same name, same signature)."
+      },
+      {
+        "q": "What is the difference between Composition and Inheritance?",
+        "a": "- Inheritance (IS-A relationship): A child class extends a parent class (e.g. Car IS-A Vehicle). Leads to tight coupling between parent and child.\n- Composition (HAS-A relationship): A class contains references to instances of other classes as fields (e.g. Car HAS-AN Engine). Promotes loose coupling, flexibility, and easier testing."
+      },
+      {
+        "q": "Explain Static Binding vs Dynamic Binding.",
+        "a": "- Static Binding (Early Binding): The compiler resolves the binding of methods at compile time. Happens for private, static, final methods, and overloaded methods.\n- Dynamic Binding (Late Binding): The binding of methods is resolved at runtime based on the actual object type. Happens for overridden methods."
+      },
+      {
+        "q": "What is Object Cloning and what are its types?",
+        "a": "Object cloning is the process of creating an exact copy of an object. Types:\n- Shallow Copy: Copies values of fields. If fields are object references, it copies the reference address, so both source and cloned object share nested objects.\n- Deep Copy: Copies fields and recursively clones any nested objects, making the cloned object fully independent."
+      }
+    ],
+    "DBMS": [
+      {
+        "q": "What are the ACID properties in database systems?",
+        "a": "- Atomicity: All operations in a transaction succeed, or the entire transaction is rolled back (All-or-Nothing).\n- Consistency: A transaction transforms the database from one valid state to another, maintaining all constraints/rules.\n- Isolation: Concurrent transactions do not interfere with each other; they execute as if running sequentially.\n- Durability: Once a transaction commits, its changes survive system crashes or power failures."
+      },
+      {
+        "q": "What is Database Normalization? Explain 1NF, 2NF, and 3NF.",
+        "a": "Normalization reduces data redundancy and dependency by splitting tables:\n- 1NF: Table must have atomic (indivisible) values; no repeating groups of columns.\n- 2NF: Must be in 1NF, and all non-key columns must depend on the entire primary key (no partial dependency).\n- 3NF: Must be in 2NF, and no non-key columns can depend on other non-key columns (no transitive dependency)."
+      },
+      {
+        "q": "Compare a DBMS (Database Management System) vs File System.",
+        "a": "- File System: Stores unstructured files on disk. Harder to query, lacks authorization mechanisms, has high data redundancy, and does not support concurrent access safely.\n- DBMS: Structured data store. Uses SQL queries, eliminates redundancy, enforces constraints, guarantees ACID properties, and handles multiple concurrent users safely."
+      },
+      {
+        "q": "What is an Index in DBMS? What are its pros and cons?",
+        "a": "An index is a data structure (B-Tree/B+ Tree) that stores pointer addresses of rows based on column values to speed up queries. \n- Pros: Accelerates SELECT queries drastically.\n- Cons: Slows down INSERT, UPDATE, and DELETE queries because the index structure must be rebuilt on changes; also consumes additional disk storage."
+      },
+      {
+        "q": "Explain transaction concurrency anomalies: Dirty Read, Non-repeatable Read, and Phantom Read.",
+        "a": "- Dirty Read: A transaction reads uncommitted data written by another concurrent transaction (which might later roll back).\n- Non-repeatable Read: A transaction reads the same row twice, but gets different values because another transaction updated and committed it in between.\n- Phantom Read: A transaction queries a range of rows twice, but gets a different count because another transaction inserted new rows in between."
+      },
+      {
+        "q": "What is the difference between a Primary Key, Unique Key, and Foreign Key?",
+        "a": "- Primary Key: Uniquely identifies each row in a table. Cannot be NULL. Only one allowed per table.\n- Unique Key: Uniquely identifies rows. Can contain NULL values. Multiple unique keys allowed per table.\n- Foreign Key: A column that references a primary key in another table, establishing a link and enforcing referential integrity."
+      }
+    ],
+    "OS": [
+      {
+        "q": "Explain the difference between a Process and a Thread.",
+        "a": "- Process: An execution of a program. It is independent, has its own memory space (address space), and is heavy to create and switch.\n- Thread: A subset of a process (lightweight process). Threads share the memory space, heap, and resources of their parent process but have their own registers and stack. Easy to create and switch."
+      },
+      {
+        "q": "What is CPU Scheduling? Compare FCFS, SJF, and Round Robin.",
+        "a": "CPU Scheduling determines which process gets CPU time:\n- FCFS (First Come First Served): Simple FIFO. Convoy effect occurs (long processes block short ones).\n- SJF (Shortest Job First): Runs the process with the shortest burst time first. Minimizes average waiting time but can cause starvation for long processes.\n- Round Robin: Time-sliced scheduling. Each process gets the CPU for a fixed time quantum. Great for interactive environments."
+      },
+      {
+        "q": "What is Virtual Memory and how does Paging work?",
+        "a": "Virtual Memory is a technique that allows execution of processes that are not fully in RAM, making the system address space appear larger than physical memory. Paging divides virtual memory into fixed blocks called 'pages' and physical memory into 'frames'. The Memory Management Unit (MMU) uses Page Tables to map virtual pages to physical frames. If a page isn't in RAM, a 'Page Fault' is triggered to load it from disk."
+      },
+      {
+        "q": "What is Deadlock? List its four necessary conditions.",
+        "a": "A deadlock is a state where processes are blocked forever, waiting for resources held by each other. The Coffman conditions are:\n1. Mutual Exclusion: At least one resource must be non-shareable.\n2. Hold and Wait: A process holds resources while requesting new ones.\n3. No Preemption: Resources cannot be forcibly taken from processes.\n4. Circular Wait: A closed chain of processes exists where each process waits for a resource held by the next."
+      },
+      {
+        "q": "What is the difference between Mutex and Semaphore?",
+        "a": "- Mutex (Mutual Exclusion): A locking mechanism used to synchronize access to a resource. Owned by a single thread at a time. Binary (Lock/Unlock).\n- Semaphore: A signaling mechanism. Uses a counter to allow a fixed number of threads (N) to access a resource. A binary semaphore is equivalent to a mutex but lacks ownership rules (any thread can signal it)."
+      },
+      {
+        "q": "What is Thrashing in Operating Systems?",
+        "a": "Thrashing occurs when the virtual memory subsystem spends more time swapping pages in and out of RAM than executing processes. This happens when the active working set of processes exceeds physical RAM capacity, dropping CPU utilization to near zero."
+      }
+    ],
+    "Computer Networks": [
+      {
+        "q": "Explain the OSI Model layers and their functions.",
+        "a": "The OSI model is a 7-layer framework:\n7. Application: User interface (HTTP, FTP, SMTP).\n6. Presentation: Translation, encryption, compression.\n5. Session: Establishes, manages, and terminates connections.\n4. Transport: End-to-end delivery, segmentation, flow control (TCP, UDP).\n3. Network: Logical addressing, routing (IP, ICMP).\n2. Data Link: Physical addressing, framing, error control (MAC, Ethernet).\n1. Physical: Raw binary transmission over hardware."
+      },
+      {
+        "q": "Compare TCP vs UDP protocols.",
+        "a": "- TCP (Transmission Control Protocol): Connection-oriented. Reliable (packets are acknowledged, ordered). Features flow/congestion control. Slower due to overhead. Used for web browsing, email.\n- UDP (User Datagram Protocol): Connectionless. Unreliable (no delivery confirmation, packets may arrive out of order). Fast, lightweight. Used for video streaming, gaming, VoIP."
+      },
+      {
+        "q": "Explain the difference between HTTP and HTTPS.",
+        "a": "- HTTP (HyperText Transfer Protocol): Unsecured. Transmits data in plain text, making it vulnerable to interception and eavesdropping. Runs on Port 80.\n- HTTPS: Secured HTTP. Encrypts all communications using SSL/TLS protocols. Prevents tampering and eavesdropping. Runs on Port 443."
+      },
+      {
+        "q": "Describe the DNS resolution process.",
+        "a": "Domain Name System (DNS) translates domain names (google.com) to IP addresses:\n1. Browser checks cache. On miss, it queries the Local DNS Resolver.\n2. Local resolver queries the Root Server (redirects to TLD server).\n3. Resolver queries TLD Server (e.g. .com) which redirects to Authoritative Nameserver.\n4. Resolver queries Authoritative Nameserver, fetches the IP, and caches/returns it to the browser."
+      },
+      {
+        "q": "Explain the 3-Way Handshake in TCP.",
+        "a": "It establishes a secure TCP connection:\n1. SYN: Client sends a synchronization segment with a sequence number to the server.\n2. SYN-ACK: Server receives it, sends back its own SYN, and acknowledges the client's SYN.\n3. ACK: Client receives SYN-ACK, sends an acknowledgment back. Connection is established."
+      },
+      {
+        "q": "Compare a Router and a Switch.",
+        "a": "- Switch: Operates at the Data Link layer (Layer 2). Connects devices within the same Local Area Network (LAN) using MAC addresses.\n- Router: Operates at the Network layer (Layer 3). Connects different networks (LAN to WAN/Internet) using IP addresses to route packets."
+      }
+    ],
+    "SQL": [
+      {
+        "q": "Compare DDL, DML, DCL, and TCL in SQL.",
+        "a": "- DDL (Data Definition Language): Defines DB structure (CREATE, ALTER, DROP, TRUNCATE).\n- DML (Data Manipulation Language): Manages data records (SELECT, INSERT, UPDATE, DELETE).\n- DCL (Data Control Language): Manages permissions (GRANT, REVOKE).\n- TCL (Transaction Control Language): Manages transactions (COMMIT, ROLLBACK, SAVEPOINT)."
+      },
+      {
+        "q": "What is the difference between WHERE and HAVING in SQL?",
+        "a": "- WHERE: Filters rows *before* grouping occurs. Cannot contain aggregate functions (e.g., `WHERE sales > 100`).\n- HAVING: Filters grouped summary rows *after* GROUP BY executes. Can contain aggregate functions (e.g., `HAVING SUM(sales) > 5000`)."
+      },
+      {
+        "q": "Explain SQL Subqueries vs Joins. Which is generally faster?",
+        "a": "- Subquery: A query nested inside another query.\n- Join: Combines columns from multiple tables based on related keys.\n- Performance: Joins are generally faster because database engines optimize them better (creating execution plans that join rows in memory), whereas subqueries can sometimes result in separate nested loops."
+      },
+      {
+        "q": "Explain SQL Window Functions and give examples.",
+        "a": "Window functions perform calculations across a partition of rows related to the current row without merging them. Examples: `ROW_NUMBER() OVER(PARTITION BY dept ORDER BY salary DESC)` creates ranking. Other functions include `RANK()`, `DENSE_RANK()`, `LEAD()`, and `LAG()`."
+      },
+      {
+        "q": "What is the difference between UNION and UNION ALL?",
+        "a": "- `UNION`: Combines result sets of two queries and removes duplicate rows, sorting the final result (more expensive due to duplicate removal).\n- `UNION ALL`: Combines result sets and retains all duplicates without sorting (faster execution)."
+      },
+      {
+        "q": "What is a View in SQL and why do we use it?",
+        "a": "A View is a virtual table based on the result-set of an SQL statement. It does not store physical data. We use it to simplify complex queries, encapsulate database details, and restrict access to specific rows/columns for security purposes."
+      }
+    ],
+    "DSA": [
+      {
+        "q": "What is Big O notation? Explain the complexities O(1), O(log N), O(N), and O(N log N).",
+        "a": "Big O notation measures the upper bound of time/space complexity of an algorithm relative to input size N:\n- O(1) Constant: Exec time is unchanged. (e.g. array lookup).\n- O(log N) Logarithmic: Input size halves at each step. (e.g. Binary Search).\n- O(N) Linear: Time grows proportionally to N. (e.g. Linear Search).\n- O(N log N): Divides problem and sorts. (e.g. Merge Sort, Quick Sort)."
+      },
+      {
+        "q": "Compare Array vs Linked List.",
+        "a": "- Array: Stores elements in contiguous memory. Fast O(1) index lookup, but insertion/deletion is O(N) since elements must shift. Fixed size.\n- Linked List: Stores elements in non-contiguous nodes linked via pointers. Slow O(N) element search, but fast O(1) insertions/deletions at known positions. Dynamic size."
+      },
+      {
+        "q": "Explain Stack vs Queue.",
+        "a": "- Stack: LIFO (Last In First Out) structure. Operations are Push (insert) and Pop (remove) at the top. (e.g., Undo operation, function call call-stack).\n- Queue: FIFO (First In First Out) structure. Operations are Enqueue (insert at rear) and Dequeue (remove from front). (e.g., job scheduling, queue lines)."
+      },
+      {
+        "q": "What is a Binary Search Tree (BST)? What is its search time complexity?",
+        "a": "A BST is a node-based binary tree where the left child of a node contains values less than the node, and the right child contains values greater. \n- Average search time: O(log N) (when the tree is balanced).\n- Worst-case search time: O(N) (when the tree is skewed into a linked list; mitigated by AVL or Red-Black trees)."
+      },
+      {
+        "q": "Explain DFS vs BFS graph traversals.",
+        "a": "- DFS (Depth First Search): Explores as deep as possible along each branch before backtracking. Uses a Stack (or recursion). Good for finding cycles or solving mazes.\n- BFS (Breadth First Search): Explores all neighbors at the current depth before moving to the next level. Uses a Queue. Good for finding the shortest path on unweighted graphs."
+      },
+      {
+        "q": "How does Hashing resolve collisions?",
+        "a": "Collisions occur when different keys hash to the same bucket index. Resolutions:\n- Chaining (Open Hashing): Each bucket holds a linked list/tree of colliding elements.\n- Open Addressing (Closed Hashing): Finds another empty bucket in the array using Linear Probing, Quadratic Probing, or Double Hashing."
+      }
+    ],
+    "HR": [
+      {
+        "q": "Tell me about yourself.",
+        "a": "Provide a structured pitch focusing on:\n1. Present: Your current role/education and primary technical skills.\n2. Past: Core projects, internships, or achievements showing technical growth.\n3. Future: Why this specific role at this company matches your career goals. Keep it under 2 minutes and professionally focused."
+      },
+      {
+        "q": "Where do you see yourself in 5 years?",
+        "a": "Focus on growth and commitment: \"In five years, I see myself as a senior engineer who has mastered the technical architecture of this domain. I want to take on responsibilities for system design, mentor junior developers, and contribute to key architectural decisions while growing within your organization.\""
+      },
+      {
+        "q": "Why do you want to join our company?",
+        "a": "Demonstrate company research: \"I want to join your company because I am inspired by your recent work on [specific product/milestone]. More than that, your culture values technical excellence and continuous learning, which aligns with my practice of building projects and refining skills. My background in MERN/Java fits your engineering challenges.\""
+      },
+      {
+        "q": "Why should we hire you?",
+        "a": "Highlight alignment and value: \"You should hire me because I have a solid foundation in the required stack, as demonstrated by my ATS-grade projects. I bring strong problem-solving skills and a habit of writing clean, documented code. I am eager to learn, adapt quickly, and start contributing to your team from day one.\""
+      },
+      {
+        "q": "What are your salary expectations?",
+        "a": "Stay open but realistic: \"My primary focus is finding a role that aligns with my career goals and allows me to contribute my skills. Based on industry standards for a graduate with my qualifications and projects, I expect a package in the range of [insert reasonable range]. However, I am open to discussing this once we agree I am a good fit for the position.\""
+      },
+      {
+        "q": "What is your greatest strength and weakness?",
+        "a": "- Strength: \"My strength is structured problem-solving. I analyze constraints before writing code, which reduces bug-fixing time.\"\n- Weakness: \"I sometimes focus too much on details, which can slow down my initial progress. To manage this, I now set strict time-boxes for tasks to ensure I deliver functional prototypes first.\""
+      }
+    ],
+    "Behavioral Questions": [
+      {
+        "q": "What is the STAR method and when should you use it?",
+        "a": "The STAR method is a structured way to answer behavioral questions:\n- Situation: Describe the context or situation.\n- Task: Explain the challenge or task that needed completion.\n- Action: Detail the specific actions you took to resolve it.\n- Result: Highlight the positive, quantifiable outcome of your action. Use this for questions like \"Describe a time you solved a conflict\" to show measurable impact."
+      },
+      {
+        "q": "Describe a time you failed and what you learned from it.",
+        "a": "Structure using STAR: Describe a minor project failure (e.g., a database query crash during a group presentation). Explain the Task (fixing the bottleneck under pressure). Detail the Action (analyzing logs, indexing, adding error handling). Share the Result (the project was saved, and you learned the critical importance of defensive programming and testing)."
+      },
+      {
+        "q": "Describe a time you had to work under pressure to meet a deadline.",
+        "a": "Structure using STAR: Describe a hackathon or college project milestone. Explain the tight deadline. Detail the Action: how you prioritized core features, delegated tasks to teammates, set up time-boxing, and avoided burnout. Share the Result: you delivered the MVP on time, securing a successful evaluation/grading."
+      },
+      {
+        "q": "Tell me about a time you had a disagreement with a team member. How did you resolve it?",
+        "a": "Structure using STAR: Describe a disagreement over technical choices (e.g. SQL vs MongoDB for a project). Detail the Action: you held a calm discussion, listed the pros and cons of both options on a whiteboard, proposed a small benchmark test, and agreed on a final data-driven decision. Share the Result: the project succeeded, and you maintained a strong relationship."
+      },
+      {
+        "q": "Describe a time you took the lead on a project.",
+        "a": "Structure using STAR: Explain a college team project where the direction was unclear. Detail the Action: you set up a Git repository, drafted the project roadmap, organized weekly syncs, assigned tasks based on team strengths, and helped resolve blockers. Share the Result: the team completed the project on time and achieved a high grade."
+      },
+      {
+        "q": "Tell me about a time you had to learn a technology quickly.",
+        "a": "Structure using STAR: Explain a project or internship where a new tool (like Docker or Redis) was suddenly required. Detail the Action: you read official documentation, followed a crash course, built small dummy test apps, and integrated it into the main project. Share the Result: you successfully deployed the app, and the tech improved performance by 30%."
+      }
+    ]
+  }
+}
