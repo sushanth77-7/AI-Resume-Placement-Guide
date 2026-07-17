@@ -5,6 +5,9 @@ const { uploadPhoto, uploadCertificate } = require('../middleware/profileUploadM
 
 const router = express.Router();
 
+// Get profile photo by ID (does not require authentication)
+router.get('/photo/:id', profileController.getProfilePhoto);
+
 // Get profile details (includes resumes & audits history)
 router.get('/details', authMiddleware, profileController.getProfileDetails);
 

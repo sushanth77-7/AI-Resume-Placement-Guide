@@ -14,15 +14,7 @@ if (!fs.existsSync(certDir)) {
 }
 
 // Storage for Profile Pictures
-const picStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, picDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'avatar-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
+const picStorage = multer.memoryStorage();
 
 // Storage for Certificates
 const certStorage = multer.diskStorage({

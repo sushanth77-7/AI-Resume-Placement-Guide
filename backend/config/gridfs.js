@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { GridFSBucket } = require("mongodb");
 
 let gridFSBucket;
+let profileImageBucket;
 
 const initGridFS = () => {
   const db = mongoose.connection.db;
@@ -14,6 +15,10 @@ const initGridFS = () => {
     bucketName: "resumes",
   });
 
+  profileImageBucket = new GridFSBucket(db, {
+    bucketName: "profileImages",
+  });
+
   console.log("✅ GridFS initialized");
 };
 
@@ -24,7 +29,15 @@ const getGridFSBucket = () => {
   return gridFSBucket;
 };
 
+const getProfileImageBucket = () => {
+  if (!profileImageBucket) {
+    throw new Error("Profile GridFS is not initialized.");
+  }
+  return profileImageBucket;
+};
+
 module.exports = {
   initGridFS,
   getGridFSBucket,
+  getProfileImageBucket,
 };

@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
   profilePicture: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
     default: null
   },
   personalInfo: {

@@ -7,6 +7,8 @@ const CodingAttempt = require('../models/CodingAttempt');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const mongoose = require('mongoose');
+const { getProfileImageBucket } = require('../config/gridfs');
 
 /**
  * Helper to call Groq to categorize certificate
@@ -142,7 +144,33 @@ exports.updatePersonalInfo = async (req, res) => {
     };
 
     if (req.file) {
-      updateFields.profilePicture = `/uploads/profile-pictures/${req.file.filename}`;
+      const bucket = getProfileImageBucket();
+      const uploadStream = bucket.openUploadStream(req.file.originalname, {
+        contentType: req.file.mimetype,
+        metadata: { userId }
+      });
+
+      await new Promise((resolve, reject) => {
+        uploadStream.on('finish', resolve);
+        uploadStream.on('error', reject);
+        uploadStream.end(req.file.buffer);
+      });
+
+      // Save uploadStream.id to updateFields.profilePicture
+      updateFields.profilePicture = uploadStream.id;
+
+      // Delete the previous image only if it is a valid GridFS ObjectId
+      const oldUser = await User.findById(userId);
+      if (oldUser && oldUser.profilePicture) {
+        const oldPic = oldUser.profilePicture;
+        if (mongoose.Types.ObjectId.isValid(oldPic) && !oldPic.toString().startsWith('/uploads/')) {
+          try {
+            await bucket.delete(new mongoose.Types.ObjectId(oldPic));
+          } catch (deleteError) {
+            console.error('Failed to delete old profile photo:', deleteError.message);
+          }
+        }
+      }
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updateFields, { new: true })
@@ -549,6 +577,40 @@ exports.deleteAccount = async (req, res) => {
       success: true,
       message: 'Your placement preparation account and all related portfolio history have been permanently deleted.'
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
+ * Controller: Retrieve and stream profile photo from GridFS
+ */
+exports.getProfilePhoto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid profile photo ID' });
+    }
+
+    const bucket = getProfileImageBucket();
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    // Find file metadata to get Content-Type
+    const files = await bucket.find({ _id: objectId }).toArray();
+    if (!files || files.length === 0) {
+      return res.status(404).json({ error: 'Profile photo not found' });
+    }
+
+    const file = files[0];
+    res.setHeader('Content-Type', file.contentType || 'image/jpeg');
+
+    const downloadStream = bucket.openDownloadStream(objectId);
+    downloadStream.on('error', (err) => {
+      if (!res.headersSent) {
+        res.status(404).json({ error: 'Error downloading profile photo' });
+      }
+    });
+    downloadStream.pipe(res);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

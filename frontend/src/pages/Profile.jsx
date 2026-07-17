@@ -378,7 +378,11 @@ export default function Profile() {
           <div className="flex items-end">
             {profile.profilePicture ? (
               <img 
-                src={`http://localhost:5000${profile.profilePicture}`} 
+                src={
+                  profile.profilePicture.toString().startsWith('/uploads/')
+                    ? `http://localhost:5000${profile.profilePicture}`
+                    : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/profile/photo/${profile.profilePicture}`
+                } 
                 alt="Avatar" 
                 className="w-24 h-24 rounded-full border-4 border-white object-cover bg-white shadow-md -mb-12"
               />
@@ -940,17 +944,17 @@ export default function Profile() {
 
                           {/* Action links */}
                           <div className="flex gap-4 border-t border-slate-100/60 pt-3">
-                           <button
-  onClick={() =>
-    resumeService.downloadResume(
-      resItem._id,
-      resItem.fileName
-    )
-  }
-  className="text-xs font-bold text-indigo-650 hover:underline"
->
-  📥 Download Original Resume
-</button>
+                            <button
+                              onClick={() =>
+                                resumeService.downloadResume(
+                                  resItem._id,
+                                  resItem.fileName
+                                )
+                              }
+                              className="text-xs font-bold text-indigo-650 hover:underline"
+                            >
+                              📥 Download Original Resume
+                            </button>
                           </div>
                         </div>
                       )
@@ -1175,17 +1179,12 @@ export default function Profile() {
                           )}
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
-                         <button
-  onClick={() =>
-    resumeService.downloadResume(
-      resItem._id,
-      resItem.fileName
-    )
-  }
-  className="text-xs font-bold text-indigo-650 hover:underline"
->
-  📥 Download Original Resume
-</button>
+                          <button
+                            onClick={() => window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${cert.fileUrl}`, '_blank')}
+                            className="text-xs font-bold text-indigo-650 hover:underline"
+                          >
+                            📄 View Certificate
+                          </button>
                           <button 
                             onClick={() => handleDeleteCert(cert._id)}
                             className="bg-white hover:bg-rose-50 text-rose-500 border border-slate-200 p-2 rounded-lg"
